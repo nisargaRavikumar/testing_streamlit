@@ -49,7 +49,7 @@ add_selectbox = st.sidebar.radio(
 def bookrecomm():
     st.title("Books Recommendations for User")
     st.write("-------------------------------------------------------------------------------------------------")
-    lmodel = keras.models.load_model("my_model")
+    lmodel = keras.models.load_model('my_model')
     def recommend(user_id):
         books = pd.read_csv('books_cleaned.csv')
         ratings = pd.read_csv('ratings.csv')

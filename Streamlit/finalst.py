@@ -39,7 +39,7 @@ add_selectbox = st.sidebar.radio(
     "Select the option",
     ("Book Recommendations", "Inventory Forecasting","Cohort Analysis")
 )
-lmodel = keras.models.load_model('../my_model') 
+lmodel = keras.models.load_model('/Streamlit/my_model') 
 books = pd.read_csv('books_cleaned.csv')
 ratings = pd.read_csv('ratings.csv')
 def bookrecomm():

@@ -45,15 +45,15 @@ add_selectbox = st.sidebar.radio(
     "Select the option",
     ("Book Recommendations", "Inventory Forecasting","Cohort Analysis")
 )
- 
+lmodel = keras.models.load_model('my_model') 
+books = pd.read_csv('books_cleaned.csv')
+ratings = pd.read_csv('ratings.csv')
 def bookrecomm():
     st.title("Books Recommendations for User")
     st.write("-------------------------------------------------------------------------------------------------")
-    lmodel = keras.models.load_model('my_model')
+    
     def recommend(user_id):
-        books = pd.read_csv('books_cleaned.csv')
-        ratings = pd.read_csv('ratings.csv')
-  
+        
         book_id = list(ratings.book_id.unique()) #grabbing all the unique books
   
         book_arr = np.array(book_id) #geting all book IDs and storing them in the form of an array
@@ -72,14 +72,16 @@ def bookrecomm():
     # when 'Predict' is clicked, make the prediction and store it 
     if st.button("Predict"): 
         st.dataframe(recommend(user).style.set_properties(**{'background-color': 'aliceblue'}))
-
+model = joblib.load('finalized_model1.sav')
+X_test= pd.read_csv('X_test.csv')
+test= pd.read_csv('IFDtest.csv',parse_dates=['Transaction_date'])
 def salesforecast():
     st.title("Inventory Forecasting")
     st.write("-------------------------------------------------------------------------------------------------")
     
     model = joblib.load('finalized_model1.sav')
-    X_test= pd.read_csv(r'X_test.csv')
-    test= pd.read_csv(r'IFDtest.csv',parse_dates=['Transaction_date'])
+    X_test= pd.read_csv('X_test.csv')
+    test= pd.read_csv('IFDtest.csv',parse_dates=['Transaction_date'])
     book_ids=test['book_id'].unique()
     result = model.predict(X_test, num_iteration=model.best_iteration)
     forecast = pd.DataFrame({"date":test["Transaction_date"],
@@ -99,7 +101,7 @@ def salesforecast():
             title = "Line frame"
         )
         st.write(fig)
-
+cohort_pivot = joblib.load('cohort.sav')
 def cohort():
     st.title("Cohort Analysis for user retention")
     st.write("-------------------------------------------------------------------------------------------------")
